@@ -1,20 +1,30 @@
 <template>
   <div>
-    <Form :profileItems="profileItems" :validate="validate"></Form>
-    <DisplayProfile v-if="isProfileFilled" :profileItems="profileItems" v-cloak></DisplayProfile>
+    <label style="display: block;" v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-input'">
+      {{ profileItemLabel }}:
+      <input :type="profileItemLabel" :ref="profileItemLabel">
+      <template v-if="validate">
+        <template v-for="(errorMessage, errorMessageNo) in profileItem.errorMessages" :key="profileItemLabel + '-error-' + errorMessageNo">
+          <span v-if="errorMessage" style="color: red" v-cloak>
+            {{ errorMessage }}
+          </span>
+        </template>
+      </template>
+    </label>
+    <button @click="setProfile" type="button">SUBMIT</button>
+
+    <div v-if="isProfilefilled" v-cloak>
+      <p v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-information'">
+        Your {{ profileItemLabel }} is {{ profileItem.input }}
+      </p>
+    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from '@vue/composition-api'
-import Form from './Form.vue';
-import DisplayProfile from './DisplayProfile.vue';
+import { defineComponent } from "@vue/runtime-core";
 
 export default defineComponent({
-  components: {
-    Form,
-    DisplayProfile
-  },
   data() {
     return {
       name: '',
@@ -64,7 +74,7 @@ export default defineComponent({
         password: this.passwordInfo
       }
     },
-    isProfileFilled: function() {
+    isProfilefilled: function() {
       return Object.values(this.profileItems)
         .every(profileItem => profileItem.errorMessages
           .every(errorMessages => !errorMessages));
