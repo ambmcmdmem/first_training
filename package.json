@@ -2,10 +2,15 @@
   "name": "first_training_project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.html",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Daiki Yamamoto <d.yamamoto@xxxaz.jp> (https://github.com/ambmcmdmem)",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "vue": "^3.2.31",
+    "vue-loader": "^17.0.0",
+    "vue-template-compiler": "^2.6.14"
+  }
 }
