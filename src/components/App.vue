@@ -1,45 +1,34 @@
 <template>
-  <div>
-    <label style="display: block;" v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-input'">
-      {{ profileItemLabel }}:
-      <input :type="profileItemLabel" :ref="profileItemLabel">
-      <template v-if="validate">
-        <template v-for="(errorMessage, errorMessageNo) in profileItem.errorMessages" :key="profileItemLabel + '-error-' + errorMessageNo">
-          <span v-if="errorMessage" style="color: red" v-cloak>
-            {{ errorMessage }}
-          </span>
-        </template>
-      </template>
-    </label>
-    <button @click="setProfile" type="button">SUBMIT</button>
+  <Form
+    :profileItems='profileItems'
+    @setName="name = $event"
+    @setEmail="email = $event"
+    @setPassword="password = $event"
+    :validate='validate'
+  ></Form>
 
-    <div v-if="isProfilefilled" v-cloak>
-      <p v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-information'">
-        Your {{ profileItemLabel }} is {{ profileItem.input }}
-      </p>
-    </div>
-  </div>
+  <DisplayProfile
+    v-if="isProfilefilled"
+    :profileItems="profileItems"
+    v-cloak
+  ></DisplayProfile>
 </template>
 
 <script>
-import { defineComponent } from "@vue/runtime-core";
+import Form from "./Form.vue";
+import DisplayProfile from './DisplayProfile.vue';
 
-export default defineComponent({
+export default {
+  components: {
+    Form,
+    DisplayProfile
+  },
   data() {
     return {
       name: '',
       email: '',
       password: '',
-      validate: false
     };
-  },
-  methods: {
-    setProfile() {
-      this.name = this.$refs.name[0].value;
-      this.email = this.$refs.email[0].value;
-      this.password = this.$refs.password[0].value;
-      this.validate = true;
-    },
   },
   computed: {
     nameInfo: function() {
@@ -80,5 +69,5 @@ export default defineComponent({
           .every(errorMessages => !errorMessages));
     }
   },
-})
+};
 </script>

@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  props: ['profileItems', 'validate', 'setProfile'],
+  props: ['profileItems', 'validate'],
   data() {
     return {
       validate: false
@@ -23,10 +23,9 @@ export default {
   },
   methods: {
     setProfile() {
-      // this.name = this.$refs.name[0].value;
-      // this.email = this.$refs.email[0].value;
-      // this.password = this.$refs.password[0].value;
-      this.$emit('setProfile');
+      this.$emit('setName', this.$refs.name[0].value);
+      this.$emit('setEmail', this.$refs.email[0].value);
+      this.$emit('setPassword', this.$refs.password[0].value);
       this.validate = true;
     },
   }
