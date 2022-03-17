@@ -21,27 +21,40 @@ export default {
   },
   data() {
     return {
-      profileItems: {
-        name: {
-          input: '',
-          errorMessages: ['']
-        },
-        email: {
-          input: '',
-          errorMessages: ['']
-        },
-        password: {
-          input: '',
-          errorMessages: ['']
-        }
-      }
+      name: '',
+      email: '',
+      password: '',
     };
   },
   methods: {
     setProfile: function(profileItems) {
-      this.profileItems.name = profileItems.name;
-      this.profileItems.email = profileItems.email;
-      this.profileItems.password = profileItems.password;
+      this.name = profileItems.name;
+      this.email = profileItems.email;
+      this.password = profileItems.password;
+    }
+  },
+  computed: {
+    nameInfo: function() {
+      return {
+        input: this.name
+      }
+    },
+    emailInfo: function() {
+      return {
+        input: this.email
+      }
+    },
+    passwordInfo: function() {
+      return {
+        input: this.password.replace(/\S/g, '●')
+      }
+    },
+    profileItems: function() {
+      return {
+        name: this.nameInfo,
+        email: this.emailInfo,
+        password: this.passwordInfo
+      }
     }
   },
 };
