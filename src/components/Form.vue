@@ -23,9 +23,11 @@ export default {
   },
   methods: {
     setProfile() {
-      this.$emit('setName', this.$refs.name[0].value);
-      this.$emit('setEmail', this.$refs.email[0].value);
-      this.$emit('setPassword', this.$refs.password[0].value);
+      this.$emit(
+        'setProfile',
+        this.$refs.name[0].value,
+        this.$refs.email[0].value,
+        this.$refs.password[0].value);
       this.validate = true;
     },
   }

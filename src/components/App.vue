@@ -1,9 +1,7 @@
 <template>
   <Form
     :profileItems='profileItems'
-    @setName="name = $event"
-    @setEmail="email = $event"
-    @setPassword="password = $event"
+    @setProfile="setProfile"
   ></Form>
 
   <DisplayProfile
@@ -27,6 +25,13 @@ export default {
       email: '',
       password: '',
     };
+  },
+  methods: {
+    setProfile: function(name, email, password) {
+      this.name = name;
+      this.email = email;
+      this.password = password;
+    }
   },
   computed: {
     nameInfo: function() {
@@ -60,7 +65,7 @@ export default {
         email: this.emailInfo,
         password: this.passwordInfo
       }
-    }
+    },
   },
 };
 </script>
