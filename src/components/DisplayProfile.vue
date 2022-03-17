@@ -1,7 +1,10 @@
 <template>
-  <template v-if="isProfilefilled">
+  <template v-if="DoesProfilePassCheck">
     <p v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-information'">
-      Your {{ profileItemLabel }} is {{ profileItem.input }}
+      Your {{ profileItemLabel }} is 
+      {{ profileItemLabel === 'password'
+          ? profileItem.input.replace(/\S/g, '●')
+          : profileItem.input }}
     </p>
   </template>
 </template>
@@ -10,10 +13,9 @@
 export default {
   props: ['profileItems'],
   computed: {
-    isProfilefilled: function() {
+    DoesProfilePassCheck: function() {
       return Object.values(this.profileItems)
-        .every(profileItem => profileItem.errorMessages
-          .every(errorMessage => !errorMessage));
+        .every(profileItem => !profileItem.errorMessages.length);
     }
   }
 };

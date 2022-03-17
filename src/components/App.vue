@@ -21,51 +21,28 @@ export default {
   },
   data() {
     return {
-      name: '',
-      email: '',
-      password: '',
+      profileItems: {
+        name: {
+          input: '',
+          errorMessages: ['']
+        },
+        email: {
+          input: '',
+          errorMessages: ['']
+        },
+        password: {
+          input: '',
+          errorMessages: ['']
+        }
+      }
     };
   },
   methods: {
     setProfile: function(profileItems) {
-      this.name = profileItems.name;
-      this.email = profileItems.email;
-      this.password = profileItems.password;
+      this.profileItems.name = profileItems.name;
+      this.profileItems.email = profileItems.email;
+      this.profileItems.password = profileItems.password;
     }
-  },
-  computed: {
-    nameInfo: function() {
-      return {
-        input: this.name,
-        errorMessages: [
-          this.name ? '' : '入力されていません。'
-        ]
-      }
-    },
-    emailInfo: function() {
-      return {
-        input: this.email,
-        errorMessages: [
-          this.email ? '' : '入力されていません。'
-        ]
-      }
-    },
-    passwordInfo: function() {
-      return {
-        input: this.password.replace(/\S/g, '●'),
-        errorMessages: [
-          this.password ? '' : '入力されていません。',
-          this.password.length >= 8 ? '' : 'パスワードは8文字以上です。'
-        ]
-      }
-    },
-    profileItems: function() {
-      return {
-        name: this.nameInfo,
-        email: this.emailInfo,
-        password: this.passwordInfo
-      }
-    },
   },
 };
 </script>
