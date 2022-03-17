@@ -13,7 +13,7 @@ export default {
     isProfilefilled: function() {
       return Object.values(this.profileItems)
         .every(profileItem => profileItem.errorMessages
-          .every(errorMessages => !errorMessages));
+          .every(errorMessage => !errorMessage));
     }
   }
 };
