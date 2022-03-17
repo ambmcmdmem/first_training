@@ -12,7 +12,6 @@ export default {
   props: ['profileItems'],
   computed: {
     DoesProfilePassCheck: function() {
-      console.log(Object.values(this.profileItems));
       return Object.values(this.profileItems)
         .every(profileItem => profileItem.input);
     }
