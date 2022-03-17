@@ -4,11 +4,9 @@
     @setName="name = $event"
     @setEmail="email = $event"
     @setPassword="password = $event"
-    :validate='validate'
   ></Form>
 
   <DisplayProfile
-    v-if="isProfilefilled"
     :profileItems="profileItems"
     v-cloak
   ></DisplayProfile>
@@ -62,11 +60,6 @@ export default {
         email: this.emailInfo,
         password: this.passwordInfo
       }
-    },
-    isProfilefilled: function() {
-      return Object.values(this.profileItems)
-        .every(profileItem => profileItem.errorMessages
-          .every(errorMessages => !errorMessages));
     }
   },
 };
