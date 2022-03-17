@@ -24,10 +24,11 @@ export default {
   methods: {
     setProfile() {
       this.$emit(
-        'setProfile',
-        this.$refs.name[0].value,
-        this.$refs.email[0].value,
-        this.$refs.password[0].value);
+        'setProfile', {
+        name: this.$refs.name[0].value,
+        email: this.$refs.email[0].value,
+        password: this.$refs.password[0].value
+      });
       this.validate = true;
     },
   }

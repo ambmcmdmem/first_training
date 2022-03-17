@@ -27,10 +27,10 @@ export default {
     };
   },
   methods: {
-    setProfile: function(name, email, password) {
-      this.name = name;
-      this.email = email;
-      this.password = password;
+    setProfile: function(profileItems) {
+      this.name = profileItems.name;
+      this.email = profileItems.email;
+      this.password = profileItems.password;
     }
   },
   computed: {
