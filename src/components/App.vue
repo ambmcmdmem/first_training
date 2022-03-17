@@ -34,26 +34,11 @@ export default {
     }
   },
   computed: {
-    nameInfo: function() {
-      return {
-        input: this.name
-      }
-    },
-    emailInfo: function() {
-      return {
-        input: this.email
-      }
-    },
-    passwordInfo: function() {
-      return {
-        input: this.password.replace(/\S/g, '●')
-      }
-    },
     profileItems: function() {
       return {
-        name: this.nameInfo,
-        email: this.emailInfo,
-        password: this.passwordInfo
+        name: this.name,
+        email: this.email,
+        password: this.password
       }
     }
   },

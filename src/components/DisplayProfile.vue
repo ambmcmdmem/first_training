@@ -2,7 +2,7 @@
   <template v-if="DoesProfilePassCheck">
     <p v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-information'">
       Your {{ profileItemLabel }} is 
-      {{ profileItem.input }}
+      {{ profileItem }}
     </p>
   </template>
 </template>
@@ -13,7 +13,7 @@ export default {
   computed: {
     DoesProfilePassCheck: function() {
       return Object.values(this.profileItems)
-        .every(profileItem => profileItem.input);
+        .every(profileItem => profileItem);
     }
   }
 };

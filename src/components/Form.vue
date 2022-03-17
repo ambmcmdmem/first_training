@@ -25,11 +25,6 @@ export default {
   methods: {
     setProfile() {
       this.validate = true;
-      this.errors = {name: [], email: [], password: []};
-      if(!this.$refs.name[0].value) this.errors.name.push('入力されていません。');
-      if(!this.$refs.email[0].value) this.errors.email.push('入力されていません。');
-      if(!this.$refs.password[0].value) this.errors.password.push('入力されていません。');
-      if(this.$refs.password[0].value.length < 8) this.errors.password.push('パスワードは8文字以上です。');
 
       this.$emit(
         'setProfile', {
@@ -43,6 +38,13 @@ export default {
     doExistErrors: function() {
       return Object.values(this.errors)
         .some(error => error.length);
+    },
+    setErrors: function() {
+      this.errors = {name: [], email: [], password: []};
+      if(!this.profileItems.name) this.errors.name.push('入力されていません。');
+      if(!this.profileItems.email) this.errors.email.push('入力されていません。');
+      if(!this.profileItems.password) this.errors.password.push('入力されていません。');
+      if(this.profileItems.password.length < 8) this.errors.password.push('パスワードは8文字以上です。');
     }
   }
 };
