@@ -22,22 +22,15 @@ export default {
       name: '',
       email: '',
       password: '',
-      errors: {},
       validate: false
     };
   },
   methods: {
     setProfile($event) {
+      this.name = $event.target.name.value
+      this.email = $event.target.email.value
+      this.password = $event.target.password.value
       this.validate = true;
-      this.errors = {name: [], email: [], password: []};
-      if(!$event.target.name.value) this.errors.name.push('入力されていません。');
-      if(!$event.target.email.value) this.errors.email.push('入力されていません。');
-      if(!$event.target.password.value) this.errors.password.push('入力されていません。');
-      if($event.target.password.value.length < 8) this.errors.password.push('パスワードは8文字以上です。');
-      this.name = this.doExistErrors ? '' : $event.target.name.value;
-      this.email = this.doExistErrors ? '' : $event.target.email.value;
-      this.password = this.doExistErrors ? '' : $event.target.password.value;
-
       this.$emit('setProfile', this.profileItems);
     }
   },
@@ -70,6 +63,19 @@ export default {
     doExistErrors() {
       return Object.values(this.errors)
         .some(error => error.length);
+    },
+    errors() {
+      const errors = {
+        name: [],
+        email: [],
+        password: []
+      };
+      if(!this.name) errors.name.push('入力されていません。');
+      if(!this.email) errors.email.push('入力されていません。');
+      if(!this.password) errors.password.push('入力されていません。');
+      if(this.password.length < 8) errors.password.push('パスワードは8文字以上です。');
+
+      return errors;
     }
   }
 };
