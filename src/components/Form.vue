@@ -4,11 +4,9 @@
       {{ profileItemLabel }}:
       <input :type="profileItem.type" :name="profileItemLabel">
       <template v-if="validate">
-        <template v-for="(error, errorNo) in errors[profileItemLabel]" :key="profileItemLabel + '-error-' + errorNo">
-          <span v-if="error" style="color: red" v-cloak>
-            {{ error }}
-          </span>
-        </template>
+        <span v-for="(error, errorNo) in errors[profileItemLabel]" :key="profileItemLabel + '-error-' + errorNo" style="color: red" v-cloak>
+          {{ error }}
+        </span>
       </template>
     </label>
     <button type="submit">SUBMIT</button>
@@ -16,6 +14,8 @@
 </template>
 
 <script>
+const outEmpty = (target) => target;
+
 export default {
   data() {
     return {
@@ -66,12 +66,12 @@ export default {
     },
     errors() {
       return {
-        name: [this.name ? '' : '入力されていません。'].filter(error => error),
-        email: [this.email ? '' : '入力されていません。'].filter(error => error),
+        name: [this.name ? '' : '入力されていません。'].filter(outEmpty),
+        email: [this.email ? '' : '入力されていません。'].filter(outEmpty),
         password: [
           this.password ? '' : '入力されていません。',
           this.password.length >= 8 ? '' : 'パスワードは8文字以上です。'
-        ].filter(error => error)
+        ].filter(outEmpty)
       }
     }
   }
