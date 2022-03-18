@@ -1,16 +1,18 @@
 <template>
-  <label style="display: block;" v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-input'">
-    {{ profileItemLabel }}:
-    <input :type="profileItemLabel" :ref="profileItemLabel">
-    <template v-if="validate">
-      <template v-for="(error, errorNo) in errors[profileItemLabel]" :key="profileItemLabel + '-error-' + errorNo">
-        <span v-if="error" style="color: red" v-cloak>
-          {{ error }}
-        </span>
+  <form @submit.prevent="setProfile($event)">
+    <label style="display: block;" v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-input'">
+      {{ profileItemLabel }}:
+      <input :type="profileItem.type" :name="profileItemLabel">
+      <template v-if="validate">
+        <template v-for="(error, errorNo) in errors[profileItemLabel]" :key="profileItemLabel + '-error-' + errorNo">
+          <span v-if="error" style="color: red" v-cloak>
+            {{ error }}
+          </span>
+        </template>
       </template>
-    </template>
-  </label>
-  <button @click="setProfile" type="button">SUBMIT</button>
+    </label>
+    <button type="submit">SUBMIT</button>
+  </form>
 </template>
 
 <script>
@@ -18,34 +20,31 @@ export default {
   props: ['profileItems'],
   data() {
     return {
+      errors: {},
       validate: false
-    }
+    };
   },
   methods: {
-    setProfile() {
+    setProfile($event) {
       this.validate = true;
+      this.errors = {name: [], email: [], password: []};
+      if(!$event.target.name.value) this.errors.name.push('入力されていません。');
+      if(!$event.target.email.value) this.errors.email.push('入力されていません。');
+      if(!$event.target.password.value) this.errors.password.push('入力されていません。');
+      if($event.target.password.value.length < 8) this.errors.password.push('パスワードは8文字以上です。');
 
       this.$emit(
         'setProfile', {
-        name: this.doExistErrors ? '' : this.$refs.name[0].value,
-        email: this.doExistErrors ? '' : this.$refs.email[0].value,
-        password: this.doExistErrors ? '' : this.$refs.password[0].value
+        name: this.doExistErrors ? '' : $event.target.name.value,
+        email: this.doExistErrors ? '' : $event.target.email.value,
+        password: this.doExistErrors ? '' : $event.target.password.value
       });
-    },
+    }
   },
   computed: {
     doExistErrors: function() {
       return Object.values(this.errors)
         .some(error => error.length);
-    },
-    errors: function() {
-      const errors = {name: [], email: [], password: []};
-      if(!this.$refs.name[0].value) errors.name.push('入力されていません。');
-      if(!this.$refs.email[0].value) errors.email.push('入力されていません。');
-      if(!this.$refs.password[0].value) errors.password.push('入力されていません。');
-      if(this.$refs.password[0].value.length < 8) errors.password.push('パスワードは8文字以上です。');
-
-      return errors;
     }
   }
 };

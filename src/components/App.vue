@@ -26,18 +26,36 @@ export default {
     };
   },
   methods: {
-    setProfile: function(profileItems) {
+    setProfile(profileItems) {
       this.name = profileItems.name;
       this.email = profileItems.email;
       this.password = profileItems.password;
     }
   },
   computed: {
-    profileItems: function() {
+    nameInfo() {
       return {
-        name: this.name,
-        email: this.email,
-        password: this.password
+        input: this.name,
+        type: 'text'
+      };
+    },
+    emailInfo() {
+      return {
+        input: this.email,
+        type: 'email'
+      };
+    },
+    passwordInfo() {
+      return {
+        input: this.password.replace(/\S/g, '●'),
+        type: 'password'
+      };
+    },
+    profileItems() {
+      return {
+        name: this.nameInfo,
+        email: this.emailInfo,
+        password: this.passwordInfo
       }
     }
   },

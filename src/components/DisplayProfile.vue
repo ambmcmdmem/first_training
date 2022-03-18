@@ -2,7 +2,7 @@
   <template v-if="DoesProfilePassCheck" v-cloak>
     <p v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-information'">
       Your {{ profileItemLabel }} is 
-      {{ profileItem }}
+      {{ profileItem.input }}
     </p>
   </template>
 </template>
@@ -11,9 +11,9 @@
 export default {
   props: ['profileItems'],
   computed: {
-    DoesProfilePassCheck: function() {
+    DoesProfilePassCheck() {
       return Object.values(this.profileItems)
-        .every(profileItem => profileItem);
+        .every(profileItem => profileItem.input);
     }
   }
 };
