@@ -5,6 +5,7 @@
   ></Form>
 
   <DisplayProfile
+    v-if="profileItems !== {}"
     :profileItems="profileItems"
   ></DisplayProfile>
 </template>

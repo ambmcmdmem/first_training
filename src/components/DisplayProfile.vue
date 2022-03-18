@@ -1,12 +1,10 @@
 <template>
-  <template v-if="DoesProfilePassCheck" v-cloak>
-    <p v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-information'">
-      Your {{ profileItemLabel }} is 
-      {{ profileItemLabel === 'password'
-          ? profileItem.input.replace(/\S/g, '●')
-          : profileItem.input }}
-    </p>
-  </template>
+  <p v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-information'">
+    Your {{ profileItemLabel }} is 
+    {{ profileItemLabel === 'password'
+        ? profileItem.input.replace(/\S/g, '●')
+        : profileItem.input }}
+  </p>
 </template>
 
 <script>

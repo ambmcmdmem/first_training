@@ -35,7 +35,7 @@ export default {
       this.email = $event.target.email.value
       this.password = $event.target.password.value
       this.validate = true;
-      this.$emit('setProfile', this.profileItems);
+      this.$emit('setProfile', this.doExistErrors ? {} : this.profileItems);
     }
   },
   computed: {
@@ -80,7 +80,7 @@ export default {
           [this.password, '入力されていません。'],
           [this.password.length >= 8, 'パスワードは8文字以上です。']
         )        
-      }
+      };
     }
   }
 };
