@@ -39,29 +39,20 @@ export default {
     }
   },
   computed: {
-    nameInfo() {
-      return {
-        input: this.doExistErrors ? '' : this.name,
-        type: 'text'
-      };
-    },
-    emailInfo() {
-      return {
-        input: this.doExistErrors ? '' : this.email,
-        type: 'email'
-      };
-    },
-    passwordInfo() {
-      return {
-        input: this.doExistErrors ? '' : this.password,
-        type: 'password'
-      };
-    },
     profileItems() {
       return {
-        name: this.nameInfo,
-        email: this.emailInfo,
-        password: this.passwordInfo
+        name: {
+          input: this.name,
+          type: 'text'
+        },
+        email: {
+          input: this.email,
+          type: 'email'
+        },
+        password: {
+          input: this.password,
+          type: 'password'
+        }
       };
     },
     doExistErrors() {
