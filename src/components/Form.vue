@@ -26,7 +26,12 @@ export default {
       name: '',
       email: '',
       password: '',
-      validate: false
+      validate: false,
+      profileTypes: {
+        name: 'text',
+        email: 'email',
+        password: 'password'
+      }
     };
   },
   methods: {
@@ -45,13 +50,6 @@ export default {
         email: this.email,
         password: this.password,
       };
-    },
-    profileTypes() {
-      return {
-        name: 'text',
-        email: 'email',
-        password: 'password'
-      }
     },
     doExistErrors() {
       return Object.values(this.errors)
