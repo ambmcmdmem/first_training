@@ -1,8 +1,8 @@
 <template>
   <form @submit.prevent="setProfile($event)">
-    <label style="display: block;" v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-input'">
+    <label style="display: block;" v-for="(_, profileItemLabel) in profileItems" :key="profileItemLabel + '-input'">
       {{ profileItemLabel }}:
-      <input :type="profileItem.type" :name="profileItemLabel">
+      <input :type="profileTypes[profileItemLabel]" :name="profileItemLabel">
       <template v-if="validate">
         <span v-for="(error, errorNo) in errors[profileItemLabel]" :key="profileItemLabel + '-error-' + errorNo" style="color: red" v-cloak>
           {{ error }}
@@ -41,19 +41,17 @@ export default {
   computed: {
     profileItems() {
       return {
-        name: {
-          input: this.name,
-          type: 'text'
-        },
-        email: {
-          input: this.email,
-          type: 'email'
-        },
-        password: {
-          input: this.password,
-          type: 'password'
-        }
+        name: this.name,
+        email: this.email,
+        password: this.password,
       };
+    },
+    profileTypes() {
+      return {
+        name: 'text',
+        email: 'email',
+        password: 'password'
+      }
     },
     doExistErrors() {
       return Object.values(this.errors)

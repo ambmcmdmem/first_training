@@ -2,8 +2,8 @@
   <p v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-information'">
     Your {{ profileItemLabel }} is 
     {{ profileItemLabel === 'password'
-        ? profileItem.input.replace(/\S/g, '●')
-        : profileItem.input }}
+        ? profileItem.replace(/\S/g, '●')
+        : profileItem }}
   </p>
 </template>
 
@@ -13,7 +13,7 @@ export default {
   computed: {
     DoesProfilePassCheck() {
       return Object.values(this.profileItems)
-        .every(profileItem => profileItem.input);
+        .every(profileItem => profileItem);
     }
   }
 };
