@@ -14,7 +14,11 @@
 </template>
 
 <script>
-const outEmpty = (target) => target;
+const byExistence = (target) => target;
+const validateErrors = (...validationAndErrors) =>
+  validationAndErrors
+    .map(([isValid, error]) => isValid ? '' : error)
+    .filter(byExistence);
 
 export default {
   data() {
@@ -66,12 +70,16 @@ export default {
     },
     errors() {
       return {
-        name: [this.name ? '' : '入力されていません。'].filter(outEmpty),
-        email: [this.email ? '' : '入力されていません。'].filter(outEmpty),
-        password: [
-          this.password ? '' : '入力されていません。',
-          this.password.length >= 8 ? '' : 'パスワードは8文字以上です。'
-        ].filter(outEmpty)
+        name: validateErrors(
+          [this.name, '入力されていません。']
+        ),
+        email: validateErrors(
+          [this.email, '入力されていません。']
+        ),
+        password: validateErrors(
+          [this.password, '入力されていません。'],
+          [this.password.length >= 8, 'パスワードは8文字以上です。']
+        )        
       }
     }
   }
