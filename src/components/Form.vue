@@ -15,8 +15,8 @@
 
 <script>
 const byExistence = (target) => target;
-const validateErrors = (...validationAndErrors) =>
-  validationAndErrors
+const validationErrors = (...validityAndErrors) =>
+  validityAndErrors
     .map(([isValid, error]) => isValid ? '' : error)
     .filter(byExistence);
 
@@ -70,13 +70,13 @@ export default {
     },
     errors() {
       return {
-        name: validateErrors(
+        name: validationErrors(
           [this.name, '入力されていません。']
         ),
-        email: validateErrors(
+        email: validationErrors(
           [this.email, '入力されていません。']
         ),
-        password: validateErrors(
+        password: validationErrors(
           [this.password, '入力されていません。'],
           [this.password.length >= 8, 'パスワードは8文字以上です。']
         )        
