@@ -37,19 +37,19 @@ export default {
   computed: {
     nameInfo() {
       return {
-        input: this.name,
+        input: this.doExistErrors ? '' : this.name,
         type: 'text'
       };
     },
     emailInfo() {
       return {
-        input: this.email,
+        input: this.doExistErrors ? '' : this.email,
         type: 'email'
       };
     },
     passwordInfo() {
       return {
-        input: this.password.replace(/\S/g, '●'),
+        input: this.doExistErrors ? '' : this.password.replace(/\S/g, '●'),
         type: 'password'
       };
     },
