@@ -65,17 +65,14 @@ export default {
         .some(error => error.length);
     },
     errors() {
-      const errors = {
-        name: [],
-        email: [],
-        password: []
-      };
-      if(!this.name) errors.name.push('入力されていません。');
-      if(!this.email) errors.email.push('入力されていません。');
-      if(!this.password) errors.password.push('入力されていません。');
-      if(this.password.length < 8) errors.password.push('パスワードは8文字以上です。');
-
-      return errors;
+      return {
+        name: [this.name ? '' : '入力されていません。'].filter(error => error),
+        email: [this.email ? '' : '入力されていません。'].filter(error => error),
+        password: [
+          this.password ? '' : '入力されていません。',
+          this.password.length >= 8 ? '' : 'パスワードは8文字以上です。'
+        ].filter(error => error)
+      }
     }
   }
 };
