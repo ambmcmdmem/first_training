@@ -53,7 +53,7 @@ export default {
     },
     passwordInfo() {
       return {
-        input: this.doExistErrors ? '' : this.password.replace(/\S/g, '●'),
+        input: this.doExistErrors ? '' : this.password,
         type: 'password'
       };
     },
