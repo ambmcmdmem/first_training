@@ -17,9 +17,11 @@
 
 <script>
 export default {
-  props: ['profileItems'],
   data() {
     return {
+      name: '',
+      email: '',
+      password: '',
       errors: {},
       validate: false
     };
@@ -32,17 +34,40 @@ export default {
       if(!$event.target.email.value) this.errors.email.push('入力されていません。');
       if(!$event.target.password.value) this.errors.password.push('入力されていません。');
       if($event.target.password.value.length < 8) this.errors.password.push('パスワードは8文字以上です。');
+      this.name = this.doExistErrors ? '' : $event.target.name.value;
+      this.email = this.doExistErrors ? '' : $event.target.email.value;
+      this.password = this.doExistErrors ? '' : $event.target.password.value;
 
-      this.$emit(
-        'setProfile', {
-        name: this.doExistErrors ? '' : $event.target.name.value,
-        email: this.doExistErrors ? '' : $event.target.email.value,
-        password: this.doExistErrors ? '' : $event.target.password.value
-      });
+      this.$emit('setProfile', this.profileItems);
     }
   },
   computed: {
-    doExistErrors: function() {
+    nameInfo() {
+      return {
+        input: this.name,
+        type: 'text'
+      };
+    },
+    emailInfo() {
+      return {
+        input: this.email,
+        type: 'email'
+      };
+    },
+    passwordInfo() {
+      return {
+        input: this.password.replace(/\S/g, '●'),
+        type: 'password'
+      };
+    },
+    profileItems() {
+      return {
+        name: this.nameInfo,
+        email: this.emailInfo,
+        password: this.passwordInfo
+      };
+    },
+    doExistErrors() {
       return Object.values(this.errors)
         .some(error => error.length);
     }

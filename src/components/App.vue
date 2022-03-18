@@ -20,44 +20,13 @@ export default {
   },
   data() {
     return {
-      name: '',
-      email: '',
-      password: '',
+      profileItems: {}
     };
   },
   methods: {
     setProfile(profileItems) {
-      this.name = profileItems.name;
-      this.email = profileItems.email;
-      this.password = profileItems.password;
+      this.profileItems = profileItems;
     }
-  },
-  computed: {
-    nameInfo() {
-      return {
-        input: this.name,
-        type: 'text'
-      };
-    },
-    emailInfo() {
-      return {
-        input: this.email,
-        type: 'email'
-      };
-    },
-    passwordInfo() {
-      return {
-        input: this.password.replace(/\S/g, '●'),
-        type: 'password'
-      };
-    },
-    profileItems() {
-      return {
-        name: this.nameInfo,
-        email: this.emailInfo,
-        password: this.passwordInfo
-      }
-    }
-  },
+  }
 };
 </script>
