@@ -1,5 +1,5 @@
 <template>
-  <template v-if="DoesProfilePassCheck">
+  <template v-if="DoesProfilePassCheck" v-cloak>
     <p v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-information'">
       Your {{ profileItemLabel }} is 
       {{ profileItem }}

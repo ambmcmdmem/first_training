@@ -6,7 +6,6 @@
 
   <DisplayProfile
     :profileItems="profileItems"
-    v-cloak
   ></DisplayProfile>
 </template>
 

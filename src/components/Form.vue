@@ -15,10 +15,9 @@
 
 <script>
 export default {
-  props: ['profileItems', 'validate'],
+  props: ['profileItems'],
   data() {
     return {
-      errors: {},
       validate: false
     }
   },
@@ -39,12 +38,14 @@ export default {
       return Object.values(this.errors)
         .some(error => error.length);
     },
-    setErrors: function() {
-      this.errors = {name: [], email: [], password: []};
-      if(!this.profileItems.name) this.errors.name.push('入力されていません。');
-      if(!this.profileItems.email) this.errors.email.push('入力されていません。');
-      if(!this.profileItems.password) this.errors.password.push('入力されていません。');
-      if(this.profileItems.password.length < 8) this.errors.password.push('パスワードは8文字以上です。');
+    errors: function() {
+      const errors = {name: [], email: [], password: []};
+      if(!this.$refs.name[0].value) errors.name.push('入力されていません。');
+      if(!this.$refs.email[0].value) errors.email.push('入力されていません。');
+      if(!this.$refs.password[0].value) errors.password.push('入力されていません。');
+      if(this.$refs.password[0].value.length < 8) errors.password.push('パスワードは8文字以上です。');
+
+      return errors;
     }
   }
 };
