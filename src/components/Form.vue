@@ -1,16 +1,14 @@
 <template>
-  <form @submit.prevent="setProfile($event)">
-    <label style="display: block;" v-for="(_, profileItemLabel) in profileItems" :key="profileItemLabel + '-input'">
-      {{ profileItemLabel }}:
-      <input :type="profileTypes[profileItemLabel]" :name="profileItemLabel">
-      <template v-if="validate">
-        <span v-for="(error, errorNo) in errors[profileItemLabel]" :key="profileItemLabel + '-error-' + errorNo" style="color: red" v-cloak>
-          {{ error }}
-        </span>
-      </template>
-    </label>
-    <button type="submit">SUBMIT</button>
-  </form>
+  <label style="display: block;" v-for="profileItem in profileItemDefinitions" :key="profileItem.name + '-input'">
+    {{ profileItem.name }}:
+    <input :type="profileItem.type" v-model="profileItemsData[profileItem.name]">
+    <template v-if="validate">
+      <span v-for="(error, errorNo) in profileItem.errors" :key="profileItem.name + '-error-' + errorNo" style="color: red" v-cloak>
+        {{ error }}
+      </span>
+    </template>
+  </label>
+  <button type="button" @click="setProfile">SUBMIT</button>
 </template>
 
 <script>
@@ -23,52 +21,68 @@ const validationErrors = (...validityAndErrors) =>
 export default {
   data() {
     return {
-      name: '',
-      email: '',
-      password: '',
-      validate: false,
-      profileTypes: {
-        name: 'text',
-        email: 'email',
-        password: 'password'
-      }
+      profileItemsData: {
+        name: '',
+        email: '',
+        password: ''
+      },
+      validate: false
     };
   },
   methods: {
-    setProfile($event) {
-      this.name = $event.target.name.value
-      this.email = $event.target.email.value
-      this.password = $event.target.password.value
+    setProfile() {
       this.validate = true;
-      this.$emit('setProfile', this.doExistErrors ? {} : this.profileItems);
+      this.$emit('setProfile', this.hasError ? {} : this.profileItems);
     }
   },
   computed: {
     profileItems() {
-      return {
-        name: this.name,
-        email: this.email,
-        password: this.password,
-      };
+      return [
+        {
+          name: 'name',
+          input: this.profileItemsData.name
+        },
+        {
+          name: 'email',
+          input: this.profileItemsData.email
+        },
+        {
+          name: 'password',
+          input: this.profileItemsData.password
+        }
+      ];
     },
-    doExistErrors() {
-      return Object.values(this.errors)
-        .some(error => error.length);
+    hasError() {
+      return this.profileItemDefinitions
+        .some(profileItem => profileItem.errors.length);
     },
-    errors() {
-      return {
-        name: validationErrors(
-          [this.name, '入力されていません。']
-        ),
-        email: validationErrors(
-          [this.email, '入力されていません。']
-        ),
-        password: validationErrors(
-          [this.password, '入力されていません。'],
-          [this.password.length >= 8, 'パスワードは8文字以上です。']
-        )        
-      };
+    profileItemDefinitions() {
+      return [
+        {
+          name: 'name',
+          type: 'text',
+          errors: validationErrors(
+            [this.profileItemsData.name, '入力されていません。']
+          ),
+        },
+        {
+          name: 'email',
+          type: 'email',
+          errors: validationErrors(
+            [this.profileItemsData.email, '入力されていません。']
+          ),
+        },
+        {
+          name: 'password',
+          type: 'password',
+          errors: validationErrors(
+            [this.profileItemsData.password, '入力されていません。'],
+            [this.profileItemsData.password.length >= 8, 'パスワードは8文字以上です。']
+          ),
+        }    
+      ];
     }
   }
 };
+
 </script>
