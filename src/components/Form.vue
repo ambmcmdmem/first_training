@@ -1,7 +1,7 @@
 <template>
   <label style="display: block;" v-for="profileItem in profileItemDefinitions" :key="profileItem.name + '-input'">
     {{ profileItem.name }}:
-    <input :type="profileItem.type" v-model="profileItemsData[profileItem.name]">
+    <input :type="profileItem.type" :ref="profileItem.name">
     <template v-if="validate">
       <span v-for="(error, errorNo) in profileItem.errors" :key="profileItem.name + '-error-' + errorNo" style="color: red" v-cloak>
         {{ error }}
@@ -21,16 +21,17 @@ const validationErrors = (...validityAndErrors) =>
 export default {
   data() {
     return {
-      profileItemsData: {
-        name: '',
-        email: '',
-        password: ''
-      },
+      name: '',
+      email: '',
+      password: '',
       validate: false
     };
   },
   methods: {
     setProfile() {
+      this.name = this.$refs.name[0].value;
+      this.email = this.$refs.email[0].value;
+      this.password = this.$refs.password[0].value;
       this.validate = true;
       this.$emit('setProfile', this.hasError ? {} : this.profileItems);
     }
@@ -40,15 +41,15 @@ export default {
       return [
         {
           name: 'name',
-          input: this.profileItemsData.name
+          input: this.name
         },
         {
           name: 'email',
-          input: this.profileItemsData.email
+          input: this.email
         },
         {
           name: 'password',
-          input: this.profileItemsData.password
+          input: this.password
         }
       ];
     },
@@ -62,22 +63,22 @@ export default {
           name: 'name',
           type: 'text',
           errors: validationErrors(
-            [this.profileItemsData.name, '入力されていません。']
+            [this.name, '入力されていません。']
           ),
         },
         {
           name: 'email',
           type: 'email',
           errors: validationErrors(
-            [this.profileItemsData.email, '入力されていません。']
+            [this.email, '入力されていません。']
           ),
         },
         {
           name: 'password',
           type: 'password',
           errors: validationErrors(
-            [this.profileItemsData.password, '入力されていません。'],
-            [this.profileItemsData.password.length >= 8, 'パスワードは8文字以上です。']
+            [this.password, '入力されていません。'],
+            [this.password.length >= 8, 'パスワードは8文字以上です。']
           ),
         }    
       ];
