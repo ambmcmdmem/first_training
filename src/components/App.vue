@@ -1,12 +1,12 @@
 <template>
   <Form
-    :profileItems='profileItems'
+    :profile='profile'
     @setProfile="setProfile"
   ></Form>
 
   <DisplayProfile
-    v-if="profileItems !== {}"
-    :profileItems="profileItems"
+    v-if="Object.keys(profile).length"
+    :profile="profile"
   ></DisplayProfile>
 </template>
 
@@ -21,12 +21,12 @@ export default {
   },
   data() {
     return {
-      profileItems: {}
+      profile: {}
     };
   },
   methods: {
-    setProfile(profileItems) {
-      this.profileItems = profileItems;
+    setProfile(profile) {
+      this.profile = profile;
     }
   }
 };

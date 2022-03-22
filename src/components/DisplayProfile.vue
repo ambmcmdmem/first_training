@@ -1,14 +1,11 @@
 <template>
-  <p v-for="(profileItem, profileItemLabel) in profileItems" :key="profileItemLabel + '-information'">
-    Your {{ profileItemLabel }} is 
-    {{ profileItemLabel === 'password'
-      ? profileItem.replace(/\S/g, '●')
-      : profileItem }}
-  </p>
+  <p>Your Name is {{ profile.name }}</p>
+  <p>Your Email is {{ profile.email }}</p>
+  <p>Your Password is {{ profile.password.replace(/\S/g, '●') }}</p>
 </template>
 
 <script>
 export default {
-  props: ['profileItems']
+  props: ['profile']
 };
 </script>
