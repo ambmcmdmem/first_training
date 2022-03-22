@@ -1,7 +1,7 @@
 <template>
   <label style="display: block;" v-for="profileItem in profileItemDefinitions" :key="profileItem.name + '-input'">
     {{ profileItem.name }}:
-    <input :type="profileItem.type" :ref="profileItem.name">
+    <input :type="profileItem.type" v-model="profileItems[profileItem.name]">
     <template v-if="validate">
       <span v-for="(error, errorNo) in profileItem.errors" :key="profileItem.name + '-error-' + errorNo" style="color: red" v-cloak>
         {{ error }}
@@ -21,38 +21,49 @@ const validationErrors = (...validityAndErrors) =>
 export default {
   data() {
     return {
-      name: '',
-      email: '',
-      password: '',
+      profileItems: {
+        name: '',
+        email: '',
+        password: ''
+      },
+      profileItemErrors: {
+        name: [],
+        email: [],
+        password: []
+      },
       validate: false
     };
   },
   methods: {
     setProfile() {
-      this.name = this.$refs.name[0].value;
-      this.email = this.$refs.email[0].value;
-      this.password = this.$refs.password[0].value;
+      this.profileItemErrors.name = validationErrors(
+        [this.profileItems.name, '入力されていません。']
+      );
+      this.profileItemErrors.email = validationErrors(
+        [this.profileItems.email, '入力されていません。']
+      );
+      this.profileItemErrors.password = validationErrors(
+        [this.profileItems.password, '入力されていません。'],
+        [this.profileItems.password.length >= 8, 'パスワードは8文字以上です。']
+      );
       this.validate = true;
-      this.$emit('setProfile', this.hasError ? {} : this.profileItems);
-    }
-  },
-  computed: {
-    profileItems() {
-      return [
+      this.$emit('setProfile', this.hasError ? {} : [
         {
           name: 'name',
-          input: this.name
+          input: this.profileItems.name
         },
         {
           name: 'email',
-          input: this.email
+          input: this.profileItems.email
         },
         {
           name: 'password',
-          input: this.password
+          input: this.profileItems.password
         }
-      ];
-    },
+      ]);
+    }
+  },
+  computed: {
     hasError() {
       return this.profileItemDefinitions
         .some(profileItem => profileItem.errors.length);
@@ -62,24 +73,17 @@ export default {
         {
           name: 'name',
           type: 'text',
-          errors: validationErrors(
-            [this.name, '入力されていません。']
-          ),
+          errors: this.profileItemErrors.name
         },
         {
           name: 'email',
           type: 'email',
-          errors: validationErrors(
-            [this.email, '入力されていません。']
-          ),
+          errors: this.profileItemErrors.email
         },
         {
           name: 'password',
           type: 'password',
-          errors: validationErrors(
-            [this.password, '入力されていません。'],
-            [this.password.length >= 8, 'パスワードは8文字以上です。']
-          ),
+          errors: this.profileItemErrors.password
         }    
       ];
     }
