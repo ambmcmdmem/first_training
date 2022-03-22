@@ -2,8 +2,8 @@
   <label style="display: block;" v-for="profileItem in profileItemDefinitions" :key="profileItem.name + '-input'">
     {{ profileItem.name }}:
     <input :type="profileItem.type" v-model="profileItems[profileItem.name]">
-    <template v-if="validate">
-      <span v-for="(error, errorNo) in profileItem.errors" :key="profileItem.name + '-error-' + errorNo" style="color: red" v-cloak>
+    <template v-if="validated">
+      <span v-for="(error, errorNo) in errors[profileItem.name]" :key="profileItem.name + '-error-' + errorNo" style="color: red" v-cloak>
         {{ error }}
       </span>
     </template>
@@ -17,6 +17,7 @@ const validationErrors = (...validityAndErrors) =>
   validityAndErrors
     .map(([isValid, error]) => isValid ? '' : error)
     .filter(byExistence);
+const dummyObj = {};
 const commonForProfileItems = {
   name: {
     name: 'name'
@@ -28,6 +29,20 @@ const commonForProfileItems = {
     name: 'password'
   }
 };
+const profileItemDefinitions = [
+  {
+    ...commonForProfileItems.name,
+    type: 'text',
+  },
+  {
+    ...commonForProfileItems.email,
+    type: 'email',
+  },
+  {
+    ...commonForProfileItems.password,
+    type: 'password',
+  }    
+];
 
 export default {
   data() {
@@ -37,28 +52,28 @@ export default {
         email: '',
         password: ''
       },
-      profileItemErrors: {
+      errors: {
         name: [],
         email: [],
         password: []
       },
-      validate: false
+      validated: false
     };
   },
   methods: {
     setProfile() {
-      this.profileItemErrors.name = validationErrors(
+      this.errors.name = validationErrors(
         [this.profileItems.name, '入力されていません。']
       );
-      this.profileItemErrors.email = validationErrors(
+      this.errors.email = validationErrors(
         [this.profileItems.email, '入力されていません。']
       );
-      this.profileItemErrors.password = validationErrors(
+      this.errors.password = validationErrors(
         [this.profileItems.password, '入力されていません。'],
         [this.profileItems.password.length >= 8, 'パスワードは8文字以上です。']
       );
-      this.validate = true;
-      this.$emit('setProfile', this.hasError ? {} : [
+      this.validated = true;
+      this.$emit('setProfile', this.hasError ? dummyObj : [
         {
           ...commonForProfileItems.name,
           input: this.profileItems.name
@@ -76,27 +91,10 @@ export default {
   },
   computed: {
     hasError() {
-      return this.profileItemDefinitions
-        .some(profileItem => profileItem.errors.length);
+      return Object.values(this.errors).some(byExistence);
     },
     profileItemDefinitions() {
-      return [
-        {
-          ...commonForProfileItems.name,
-          type: 'text',
-          errors: this.profileItemErrors.name
-        },
-        {
-          ...commonForProfileItems.email,
-          type: 'email',
-          errors: this.profileItemErrors.email
-        },
-        {
-          ...commonForProfileItems.password,
-          type: 'password',
-          errors: this.profileItemErrors.password
-        }    
-      ];
+      return profileItemDefinitions;
     }
   }
 };
