@@ -1,13 +1,6 @@
 <template>
-  <Form
-    :profile='profile'
-    @setProfile="setProfile"
-  ></Form>
-
-  <DisplayProfile
-    v-if="Object.keys(profile).length"
-    :profile="profile"
-  ></DisplayProfile>
+  <Form></Form>
+  <DisplayProfile></DisplayProfile>
 </template>
 
 <script>
@@ -18,16 +11,6 @@ export default {
   components: {
     Form,
     DisplayProfile
-  },
-  data() {
-    return {
-      profile: {}
-    };
-  },
-  methods: {
-    setProfile(profile) {
-      this.profile = profile;
-    }
   }
 };
 </script>

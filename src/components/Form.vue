@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import {emitter} from '../emitter';
+
 const byExistence = (target) => target;
 const validationErrors = (...validityAndErrors) =>
   validityAndErrors
@@ -64,7 +66,7 @@ export default {
     setProfile() {
       this.validate();
 
-      this.$emit('setProfile', this.hasError ? blankProfile : this.profile);
+      emitter.emit('setProfile', this.hasError ? blankProfile : this.profile);
     }
   },
   computed: {
