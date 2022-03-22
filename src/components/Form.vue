@@ -18,29 +18,18 @@ const validationErrors = (...validityAndErrors) =>
     .map(([isValid, error]) => isValid ? '' : error)
     .filter(byExistence);
 const dummyProfileItemsToExport = {};
-const profileItemParts = {
-  name: {
-    name: 'name'
-  },
-  email: {
-    name: 'email'
-  },
-  password: {
-    name: 'password'
-  }
-};
 const profileItemDefinitions = [
   {
-    ...profileItemParts.name,
-    type: 'text',
+    name: 'name',
+    type: 'text'
   },
   {
-    ...profileItemParts.email,
-    type: 'email',
+    name: 'email',
+    type: 'email'
   },
   {
-    ...profileItemParts.password,
-    type: 'password',
+    name: 'password',
+    type: 'password'
   }    
 ];
 
@@ -79,20 +68,11 @@ export default {
       this.setErrors();
 
       this.isInitialDisplay = true;
-      this.$emit('setProfile', this.hasError ? dummyProfileItemsToExport : [
-        {
-          ...profileItemParts.name,
-          input: this.profileItems.name
-        },
-        {
-          ...profileItemParts.email,
-          input: this.profileItems.email
-        },
-        {
-          ...profileItemParts.password,
-          input: this.profileItems.password
-        }
-      ]);
+      this.$emit('setProfile', this.hasError ? dummyProfileItemsToExport : {
+        name: this.profileItems.name,
+        email: this.profileItems.email,
+        password: this.profileItems.password
+      });
     }
   },
   computed: {
