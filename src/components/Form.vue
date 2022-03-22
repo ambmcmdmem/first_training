@@ -17,6 +17,17 @@ const validationErrors = (...validityAndErrors) =>
   validityAndErrors
     .map(([isValid, error]) => isValid ? '' : error)
     .filter(byExistence);
+const commonForProfileItems = {
+  name: {
+    name: 'name'
+  },
+  email: {
+    name: 'email'
+  },
+  password: {
+    name: 'password'
+  }
+};
 
 export default {
   data() {
@@ -49,15 +60,15 @@ export default {
       this.validate = true;
       this.$emit('setProfile', this.hasError ? {} : [
         {
-          name: 'name',
+          ...commonForProfileItems.name,
           input: this.profileItems.name
         },
         {
-          name: 'email',
+          ...commonForProfileItems.email,
           input: this.profileItems.email
         },
         {
-          name: 'password',
+          ...commonForProfileItems.password,
           input: this.profileItems.password
         }
       ]);
@@ -71,17 +82,17 @@ export default {
     profileItemDefinitions() {
       return [
         {
-          name: 'name',
+          ...commonForProfileItems.name,
           type: 'text',
           errors: this.profileItemErrors.name
         },
         {
-          name: 'email',
+          ...commonForProfileItems.email,
           type: 'email',
           errors: this.profileItemErrors.email
         },
         {
-          name: 'password',
+          ...commonForProfileItems.password,
           type: 'password',
           errors: this.profileItemErrors.password
         }    
