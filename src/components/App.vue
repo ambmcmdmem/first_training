@@ -1,15 +1,15 @@
 <template>
-  <Form></Form>
+  <Input></Input>
   <DisplayProfile></DisplayProfile>
 </template>
 
 <script>
-import Form from "./Form.vue";
+import Input from "./Input.vue";
 import DisplayProfile from './DisplayProfile.vue';
 
 export default {
   components: {
-    Form,
+    Input,
     DisplayProfile
   }
 };

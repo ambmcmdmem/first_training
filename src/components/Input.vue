@@ -66,7 +66,7 @@ export default {
     setProfile() {
       this.validate();
 
-      emitter.emit('setProfile', this.hasError ? blankProfile : this.profile);
+      emitter.emit('setProfile', this.hasError ? blankProfile : JSON.parse(JSON.stringify(this.profile)));
     }
   },
   computed: {
