@@ -91,7 +91,7 @@ export default {
   },
   computed: {
     hasError() {
-      return Object.values(this.errors).some(byExistence);
+      return Object.values(this.errors).some(error => error.length);
     },
     profileItemDefinitions() {
       return profileItemDefinitions;
