@@ -1,16 +1,16 @@
 <template>
-  <Input></Input>
-  <DisplayProfile></DisplayProfile>
+  <ProfileForm></ProfileForm>
+  <ProfileDisplay></ProfileDisplay>
 </template>
 
 <script>
-import Input from "./Input.vue";
-import DisplayProfile from './DisplayProfile.vue';
+import ProfileForm from "./ProfileForm.vue";
+import ProfileDisplay from './ProfileDisplay.vue';
 
 export default {
   components: {
-    Input,
-    DisplayProfile
+    ProfileForm,
+    ProfileDisplay
   }
 };
 </script>

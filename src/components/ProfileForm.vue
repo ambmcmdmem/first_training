@@ -12,7 +12,7 @@
 <script>
 import {emitter} from '../emitter';
 
-const byExistence = (target) => target;
+const byExistence = target => target;
 const validationErrors = (...validityAndErrors) =>
   validityAndErrors
     .map(([isValid, error]) => isValid ? '' : error)
