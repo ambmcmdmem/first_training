@@ -21,7 +21,7 @@ export default {
     }
   },
   mounted() {
-    emitter.on('setProfile', profile => {
+    emitter.on('profileIsSet', profile => {
       this.profile = profile;
     });
   }
