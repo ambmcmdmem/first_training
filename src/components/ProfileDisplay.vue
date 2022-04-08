@@ -1,29 +1,29 @@
 <template>
-  <template v-if="Object.keys(profile).length">
+  <div v-if="Object.keys(profile).length">
     <p>Your Name is {{ profile.name }}</p>
     <p>Your Email is {{ profile.email }}</p>
     <p>Your Password is {{ passwordToBlackCircle }}</p>
-  </template>
+  </div>
 </template>
 
 <script>
-import {emitter} from '../emitter';
+import { emitter } from '../emitter';
 
 export default {
   data() {
     return {
-      profile: {}
+      profile: {},
     };
   },
   computed: {
     passwordToBlackCircle() {
       return this.profile.password.replace(/\S/g, '●');
-    }
+    },
   },
   mounted() {
-    emitter.on('profileIsSet', profile => {
+    emitter.on('profileIsSet', (profile) => {
       this.profile = profile;
     });
-  }
+  },
 };
 </script>

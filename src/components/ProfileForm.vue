@@ -1,36 +1,49 @@
 <template>
-  <label style="display: block;" v-for="profileItem in profileDefinitions" :key="profileItem.name + '-input'">
-    {{ profileItem.name }}:
-    <input :type="profileItem.type" v-model="profile[profileItem.name]">
-    <span v-for="(error, errorNo) in errors[profileItem.name]" :key="profileItem.name + '-error-' + errorNo" style="color: red" v-cloak>
-      {{ error }}
-    </span>
-  </label>
-  <button type="button" @click="setProfile">SUBMIT</button>
+  <div>
+    <label
+      style="display: block"
+      v-for="profileItem in profileDefinitions"
+      :key="profileItem.name + '-input'"
+    >
+      {{ profileItem.name }}:
+      <input :type="profileItem.type" v-model="profile[profileItem.name]" />
+      <span
+        v-for="(error, errorNo) in errors[profileItem.name]"
+        :key="profileItem.name + '-error-' + errorNo"
+        style="color: red"
+        v-cloak
+      >
+        {{ error }}
+      </span>
+    </label>
+    <button type="button" @click="setProfile">SUBMIT</button>
+    <pre v-if="response">{{ response }}</pre>
+  </div>
 </template>
 
 <script>
-import {emitter} from '../emitter';
+import { emitter } from '../emitter';
+import axios from 'axios';
 
-const byExistence = target => target;
+const byExistence = (target) => target;
 const validationErrors = (...validityAndErrors) =>
   validityAndErrors
-    .map(([isValid, error]) => isValid ? '' : error)
+    .map(([isValid, error]) => (isValid ? '' : error))
     .filter(byExistence);
 const blankProfile = {};
 const profileDefinitions = [
   {
     name: 'name',
-    type: 'text'
+    type: 'text',
   },
   {
     name: 'email',
-    type: 'email'
+    type: 'email',
   },
   {
     name: 'password',
-    type: 'password'
-  }    
+    type: 'password',
+  },
 ];
 
 export default {
@@ -39,44 +52,54 @@ export default {
       profile: {
         name: '',
         email: '',
-        password: ''
+        password: '',
       },
       errors: {
         name: [],
         email: [],
-        password: []
-      }
+        password: [],
+      },
+      response: '',
     };
   },
   methods: {
     validate() {
       this.errors = {
-        name: validationErrors(
-          [this.profile.name, '入力されていません。']
-        ),
-        email: validationErrors(
-          [this.profile.email, '入力されていません。']
-        ),
+        name: validationErrors([this.profile.name, '入力されていません。']),
+        email: validationErrors([this.profile.email, '入力されていません。']),
         password: validationErrors(
           [this.profile.password, '入力されていません。'],
           [this.profile.password.length >= 8, 'パスワードは8文字以上です。']
-        )
+        ),
       };
     },
     setProfile() {
       this.validate();
 
-      emitter.emit('profileIsSet', this.hasError ? blankProfile : JSON.parse(JSON.stringify(this.profile)));
-    }
+      emitter.emit(
+        'profileIsSet',
+        this.hasError ? blankProfile : JSON.parse(JSON.stringify(this.profile))
+      );
+
+      axios
+        .get('http://localhost:3000/', {
+          withCredentials: false,
+        })
+        .then((response) => {
+          this.response = response;
+        })
+        .catch((error) => {
+          console.log('error: ', error);
+        });
+    },
   },
   computed: {
     hasError() {
-      return Object.values(this.errors).some(error => error.length);
+      return Object.values(this.errors).some((error) => error.length);
     },
     profileDefinitions() {
       return profileDefinitions;
-    }
-  }
+    },
+  },
 };
-
 </script>
